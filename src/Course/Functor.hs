@@ -12,10 +12,7 @@ import qualified Prelude as P
 
 class Functor f where
   -- Pronounced, eff-map.
-  (<$>) ::
-  (a -> b)
-  -> f a
-  -> f b
+  (<$>) ::  (a -> b)  -> f a  -> f b
 
 infixl 4 <$>
 
@@ -29,10 +26,7 @@ infixl 4 <$>
 -- >>> (+1) <$> Id 2
 -- Id 3
 instance Functor Id where
-  (<$>) ::
-  (a -> b)
-  -> Id a
-  -> Id b
+  (<$>) :: (a -> b)  -> Id a   -> Id b
   (<$>) f a = let Id x = a
                in Id (f x)
 
@@ -44,10 +38,7 @@ instance Functor Id where
 -- >>> (+1) <$> (1 :. 2 :. 3 :. Nil)
 -- [2,3,4]
 instance Functor List where
-  (<$>) ::
-  (a -> b)
-  -> List a
-  -> List b
+  (<$>) :: (a -> b) -> List a  -> List b
   (<$>) f a =  map f a
 
 -- | Maps a function on the Optional functor.
@@ -58,10 +49,7 @@ instance Functor List where
 -- >>> (+1) <$> Full 2
 -- Full 3
 instance Functor Optional where
-  (<$>) ::
-  (a -> b)
-  -> Optional a
-  -> Optional b
+  (<$>) :: (a -> b) -> Optional a -> Optional b
   (<$>) f Empty = Empty
   (<$>) f a = let Full x = a
                in Full (f x)
@@ -72,10 +60,7 @@ instance Functor Optional where
 -- >>> ((+1) <$> (*2)) 8
 -- 17
 instance Functor ((->) t) where
-  (<$>) ::
-  (a -> b)
-  -> ((->) t a)
-  -> ((->) t b)
+  (<$>) :: (a -> b)  -> ((->) t a) -> ((->) t b)
   (<$>) f1 f2 = f1 . f2
 
 
@@ -87,11 +72,7 @@ instance Functor ((->) t) where
 -- prop> x <$ [a,b,c] == [x,x,x]
 --
 -- prop> x <$ Full q == Full x
-(<$) ::
-Functor f =>
-a
--> f b
--> f a
+(<$) :: Functor f => a -> f b -> f a
 (<$) c b = (\_ -> c) <$> b
 
 -- | Anonymous map producing unit value.
@@ -107,11 +88,7 @@ a
 --
 -- >>> void (+10) 5
 -- ()
-void ::
-Functor f =>
-f a
--> f ()
---void = error "todo"
+void :: Functor f => f a -> f ()
 void f = () <$ f
 
 -----------------------
