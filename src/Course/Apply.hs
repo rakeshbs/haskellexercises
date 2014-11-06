@@ -201,7 +201,7 @@ lift4 f g h i j = f <$> g <*> h <*> i <*> j
   f a
   -> f b
   -> f b
-(*>) a b = (\x -> (*1)) <$> a <*> b
+(*>) a b = (\_ y -> y) <$> a <*> b
 
 -- | Sequence, discarding the value of the second argument.
 -- Pronounced, left apply.
@@ -226,8 +226,8 @@ lift4 f g h i j = f <$> g <*> h <*> i <*> j
   f b
   -> f a
   -> f b
-(<*) =
-  error "todo"
+(<*) x y = (\x _ -> x) <$> x <*> y
+
 
 -----------------------
 -- SUPPORT LIBRARIES --
